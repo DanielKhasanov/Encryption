@@ -3,16 +3,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Encryptor {
-	private BigInteger decryptionKey;
 	private BigInteger encryptionKey;
 	private BigInteger nModulus;
-	private static final int PACKETSIZE = 5;
+	private static final int PACKETSIZE = 13;
 	
 	public Encryptor(BigInteger e, BigInteger d, BigInteger p, BigInteger q) {
 		BigInteger modulus = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
 		if (((e.multiply(d)).mod(modulus)).equals(BigInteger.ONE)) {
 			encryptionKey = e;
-			decryptionKey = d;
 			nModulus = p.multiply(q);
 		} else {
 			System.out.print("The key value pair is not legal");
@@ -22,7 +20,6 @@ public class Encryptor {
 	public void setParams(BigInteger e, BigInteger d, BigInteger n) {
 		if ((e.multiply(d).mod(nModulus)).equals(BigInteger.ONE)) {
 			encryptionKey = e;
-			decryptionKey = d;
 			nModulus = n;
 		} else {
 			System.out.print("The key value pair is not legal");
@@ -32,13 +29,12 @@ public class Encryptor {
 	public void setKeys(BigInteger e, BigInteger d) {
 		if ((e.multiply(d).mod(nModulus)).equals(BigInteger.ONE)) {
 			encryptionKey = e;
-			decryptionKey = d;
 		} else {
 			System.out.print("The key value pair is not legal");
 		}
 	}
-	//Use if BigInteger doesn't work
-	/*
+	
+	
 	public ArrayList<BigInteger> encryptMessage(String message) {
 		ArrayList<String> packetMessage = StringUtils.tokenizeString(message, PACKETSIZE);
 		ArrayList<BigInteger> encryptedPackets = new ArrayList<BigInteger>();
@@ -49,21 +45,11 @@ public class Encryptor {
 		return encryptedPackets;
 	}
 	
-	private BigInteger encryptPacket(String packet) {
-		BigInteger rv = null;
-		if (packet.length() > PACKETSIZE) {
-			throw new Error("ERROR: Packet size mismatch");
-		} else {
-			BigInteger asciiMessage = StringUtils.toAscii(packet);
-			rv = (BigInteger) Math.pow(asciiMessage, encryptionKey) % nModulus;
-		}
-		return rv;
-	}
-	**/
 	
-	public BigInteger encryptMessage(String message) {
-		BigInteger rv = null;
 	
+	
+	public BigInteger encryptPacket(String message) {
+		BigInteger rv = null;
 		BigInteger asciiMessage = StringUtils.toAscii(message);
 		rv = asciiMessage.modPow(encryptionKey, nModulus);
 		
@@ -72,12 +58,21 @@ public class Encryptor {
 	
 	
 	public static void main(String[] args) {
-		BigInteger p = BigInteger.probablePrime("9999-12-31-24 D.K.K.D Certified".length()*8, new Random());
-		BigInteger q = BigInteger.probablePrime("9999-12-31-24 D.K.K.D Certified".length()*8, new Random());
+		BigInteger p = BigInteger.probablePrime(PACKETSIZE*4, new Random());
+		BigInteger q = BigInteger.probablePrime(PACKETSIZE*4, new Random());
 		BigInteger n = p.multiply(q);
 		BigInteger keyGen = (p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE));
-		BigInteger e = BigInteger.probablePrime("9999-12-31-24 D.K.K.D Certified".length()*4, new Random());
+		BigInteger e = BigInteger.probablePrime(PACKETSIZE*8, new Random());
 		BigInteger d = e.modInverse(keyGen);
+		System.out.println(System.getProperty("sun.arch.data.model") );
+		System.out.print("p: ");
+		System.out.println(p);
+		System.out.print("q: ");
+		System.out.println(q);
+		System.out.print("e: ");
+		System.out.println(e);
+		System.out.print("d: ");
+		System.out.println(d);
 		
 		//System.out.println(p);
 		//System.out.println(q);
@@ -89,10 +84,10 @@ public class Encryptor {
 		Encryptor encryptor = new Encryptor(e, d, p, q);
 		Decryptor decryptor = new Decryptor(d, n);
 		
-		BigInteger encryptedMessage = encryptor.encryptMessage("2015-10-10-20 D.K.K.D Certified");
-		System.out.println(encryptedMessage);
-//		System.out.println(StringUtils.formatPassword(encryptedMessage));
-//		System.out.println(StringUtils.formatKey(StringUtils.formatPassword(encryptedMessage)));
+		ArrayList<BigInteger> encryptedMessage = encryptor.encryptMessage("2015-10-10-20 D.K.K.D Certified");
+		
+		System.out.println(StringUtils.formatPassword(encryptedMessage.get(0)));
+		System.out.println(StringUtils.formatKey(StringUtils.formatPassword(encryptedMessage.get(0))));
 //		System.out.println(StringUtils.formatPassword(StringUtils.formatKey(StringUtils.formatPassword(encryptedMessage))));
 //		
 		String decryptedMessage = decryptor.decryptMessage(encryptedMessage);

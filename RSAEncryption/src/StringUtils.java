@@ -37,9 +37,9 @@ public class StringUtils {
 	public static String formatPassword(BigInteger encryptedKey) {
 		ArrayList<Integer> asciiValues = new ArrayList<Integer>();
 		while (encryptedKey.compareTo(BigInteger.ZERO) > 0) {
-        	Integer asciiCharacter = encryptedKey.mod(BigInteger.valueOf(62)).intValue();
+        	Integer asciiCharacter = encryptedKey.mod(BigInteger.valueOf(36)).intValue();
         	//System.out.println(asciiCharacter);
-        	encryptedKey = encryptedKey.divide(BigInteger.valueOf(62));
+        	encryptedKey = encryptedKey.divide(BigInteger.valueOf(36));
         	asciiCharacter += 48;
         	if (asciiCharacter > 57) {
         		asciiCharacter += 7;
@@ -50,16 +50,25 @@ public class StringUtils {
         	asciiValues.add(asciiCharacter);
         }
 		StringBuilder rv = new StringBuilder();
+		int counter = 0;
 		for (Integer item : asciiValues) {
+			
 			if (item == null) {
 				break;
 			}
+			if (counter ==  4) {
+				counter = 0;
+				rv.insert(0, "-");
+			} 
+			counter ++;
+			
 			rv.insert(0, (char) item.intValue());
 		}
 		return rv.toString();
 	}
 	
 	public static BigInteger formatKey(String password) {
+		password.replace("-", "");
 		ArrayList<Integer> asciiValues = new ArrayList<Integer>();
 		for (int i = 0; i < password.length(); i++) {
 			int asciiValue = (int) password.charAt(i);
@@ -75,7 +84,7 @@ public class StringUtils {
 		
 		BigInteger encryptedKey = BigInteger.ZERO;
 		for (Integer item : asciiValues) {
-			encryptedKey = encryptedKey.multiply(BigInteger.valueOf(62));
+			encryptedKey = encryptedKey.multiply(BigInteger.valueOf(36));
 			encryptedKey = encryptedKey.add(BigInteger.valueOf(item));
 			
 		}
