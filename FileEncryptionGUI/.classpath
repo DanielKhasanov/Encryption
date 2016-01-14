@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.swt"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RSAEncryption"/>
+	<classpathentry kind="lib" path="C:/Users/Daniel/Downloads/eclipse64/plugins/org.eclipse.core.databinding_1.5.0.v20150422-0725.jar" sourcepath="C:/Users/Daniel/Downloads/eclipse64/plugins/org.eclipse.core.databinding_1.5.0.v20150422-0725.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Daniel/Downloads/eclipse64/plugins/org.eclipse.core.databinding.beans_1.3.0.v20150422-0725.jar" sourcepath="C:/Users/Daniel/Downloads/eclipse64/plugins/org.eclipse.core.databinding.beans_1.3.0.v20150422-0725.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Daniel/Downloads/eclipse64/plugins/org.eclipse.core.databinding.observable_1.5.0.v20150422-0725.jar" sourcepath="C:/Users/Daniel/Downloads/eclipse64/plugins/org.eclipse.core.databinding.observable_1.5.0.v20150422-0725.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Daniel/Downloads/eclipse64/plugins/org.eclipse.core.databinding.property_1.5.0.v20150422-0725.jar" sourcepath="C:/Users/Daniel/Downloads/eclipse64/plugins/org.eclipse.core.databinding.property_1.5.0.v20150422-0725.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Daniel/Downloads/eclipse64/plugins/org.eclipse.jface.databinding_1.7.0.v20150406-2148.jar" sourcepath="C:/Users/Daniel/Downloads/eclipse64/plugins/org.eclipse.jface.databinding_1.7.0.v20150406-2148.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Daniel/Downloads/eclipse64/plugins/org.eclipse.equinox.common_3.7.0.v20150402-1709.jar" sourcepath="C:/Users/Daniel/Downloads/eclipse64/plugins/org.eclipse.equinox.common_3.7.0.v20150402-1709.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Daniel/Downloads/eclipse64/plugins/com.ibm.icu_54.1.1.v201501272100.jar" sourcepath="C:/Users/Daniel/Downloads/eclipse64/plugins/com.ibm.icu_54.1.1.v201501272100.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

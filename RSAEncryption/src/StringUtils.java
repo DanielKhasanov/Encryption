@@ -1,5 +1,6 @@
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class StringUtils {
 	
@@ -34,6 +35,10 @@ public class StringUtils {
 		return rv;
 	}
 	
+	public static String formatPassword(String encryptedKey) throws NumberFormatException{
+		return formatPassword(new BigInteger(encryptedKey));
+	}
+	
 	public static String formatPassword(BigInteger encryptedKey) {
 		ArrayList<Integer> asciiValues = new ArrayList<Integer>();
 		while (encryptedKey.compareTo(BigInteger.ZERO) > 0) {
@@ -41,12 +46,11 @@ public class StringUtils {
         	//System.out.println(asciiCharacter);
         	encryptedKey = encryptedKey.divide(BigInteger.valueOf(36));
         	asciiCharacter += 48;
+        	//0-9
         	if (asciiCharacter > 57) {
         		asciiCharacter += 7;
         	}
-        	if (asciiCharacter > 90) {
-        		asciiCharacter += 6;
-        	}
+        	//A-Z
         	asciiValues.add(asciiCharacter);
         }
 		StringBuilder rv = new StringBuilder();
@@ -67,17 +71,22 @@ public class StringUtils {
 		return rv.toString();
 	}
 	
+	public static String formatPassword(String e, String n) {
+		return formatPassword(e) + "-" + formatPassword(n); 
+	}
+	
+	public static String formatPassword(BigInteger e, BigInteger n) {
+		return formatPassword(e) + "-" + formatPassword(n);
+	}
+	
 	public static BigInteger formatKey(String password) {
-		password.replace("-", "");
+		password = password.replace("-", "");
 		ArrayList<Integer> asciiValues = new ArrayList<Integer>();
 		for (int i = 0; i < password.length(); i++) {
 			int asciiValue = (int) password.charAt(i);
 			asciiValue -= 48;
-			if (asciiValue > 10) {
+			if (asciiValue > 9) {
         		asciiValue -= 7;
-        	}
-        	if (asciiValue > 36) {
-        		asciiValue -= 6;
         	}
         	asciiValues.add(asciiValue);
 		}
@@ -92,12 +101,12 @@ public class StringUtils {
 	}
 	
 	public static void main(String[] args) {
-		String s =  "9999-12-31-24 D.K.K.D Certified";
-		BigInteger l = StringUtils.toAscii(s);
-		System.out.println(l);
-		//System.out.println(StringUtils.tokenizeString(s, 5));
-		String s2 = StringUtils.toMessage(l);
-		System.out.println(s2);
+		BigInteger d = BigInteger.probablePrime(23, new Random());
+		System.out.println(d);
+		String s = StringUtils.formatPassword(d);
+		System.out.println(s);
+		BigInteger e = StringUtils.formatKey(s);
+		System.out.println(e);
 	}
 	
 	
